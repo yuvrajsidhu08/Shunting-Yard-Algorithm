@@ -33,3 +33,20 @@ Node* pop(Node*& top){
 Node* peek(Node* top){
     return top;
 }
+
+void enqueue(Node*& f, Node*& r, Node* n){
+    if(!r) f=r=n;
+    else{
+        r->next=n;
+        r=n;
+    }
+}
+
+Node* dequeue(Node*& f, Node*& r){
+    if(!f) return NULL;
+    Node* t=f;
+    f=f->next;
+    if(!f) r=NULL;
+    t->next=NULL;
+    return t;
+}
