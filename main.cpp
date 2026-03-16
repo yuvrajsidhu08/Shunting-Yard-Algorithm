@@ -88,3 +88,72 @@ void shunt(char in[], Node*& f, Node*& r){
 
     while(stack) enqueue(f,r,pop(stack));
 }
+
+Node* build(Node*& f, Node*& r){
+    Node* s=NULL;
+    Node* t;
+
+    while((t=dequeue(f,r))){
+        if(op(t->val)){
+            Node* a=pop(s);
+            Node* b=pop(s);
+            t->right=a;
+            t->left=b;
+        }
+        push(s,t);
+    }
+
+    return pop(s);
+}
+
+void pre(Node* n){
+    if(!n) return;
+    cout<<n->val<<" ";
+    pre(n->left);
+    pre(n->right);
+}
+
+void in(Node* n){
+    if(!n) return;
+    if(op(n->val)) cout<<"( ";
+    in(n->left);
+    cout<<n->val<<" ";
+    in(n->right);
+    if(op(n->val)) cout<<") ";
+}
+
+void post(Node* n){
+    if(!n) return;
+    post(n->left);
+    post(n->right);
+    cout<<n->val<<" ";
+}
+
+int main(){
+    char input[200];
+    cout<<"Enter expression: ";
+    cin.getline(input,200);
+
+    Node* f=NULL;
+    Node* r=NULL;
+
+    shunt(input,f,r);
+
+    cout<<"Postfix: ";
+    for(Node* t=f;t;t=t->next) cout<<t->val<<" ";
+    cout<<endl;
+
+    Node* root=build(f,r);
+
+    cout<<"Prefix: ";
+    pre(root);
+    cout<<endl;
+
+    cout<<"Infix: ";
+    in(root);
+    cout<<endl;
+
+    cout<<"Postfix: ";
+    post(root);
+    cout<<endl;
+}
