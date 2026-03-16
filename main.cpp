@@ -2,6 +2,7 @@
 #include <cstring>
 using namespace std;
 
+// Node used for stack, queue, and expression tree
 class Node{
 public:
     char val[10];
@@ -17,11 +18,13 @@ public:
     }
 };
 
+// Push onto stack
 void push(Node*& top, Node* n){
     n->next=top;
     top=n;
 }
 
+// Pop from stack
 Node* pop(Node*& top){
     if(!top) return NULL;
     Node* t=top;
@@ -30,10 +33,12 @@ Node* pop(Node*& top){
     return t;
 }
 
+// Peek top of stack
 Node* peek(Node* top){
     return top;
 }
 
+// Add to queue
 void enqueue(Node*& f, Node*& r, Node* n){
     if(!r) f=r=n;
     else{
@@ -42,6 +47,7 @@ void enqueue(Node*& f, Node*& r, Node* n){
     }
 }
 
+// Remove from queue
 Node* dequeue(Node*& f, Node*& r){
     if(!f) return NULL;
     Node* t=f;
@@ -51,10 +57,12 @@ Node* dequeue(Node*& f, Node*& r){
     return t;
 }
 
+// Check if token is operator
 bool op(char* t){
     return !strcmp(t,"+")||!strcmp(t,"-")||!strcmp(t,"*")||!strcmp(t,"/")||!strcmp(t,"^");
 }
 
+// Operator precedence
 int prec(char* o){
     if(!strcmp(o,"^")) return 3;
     if(!strcmp(o,"*")||!strcmp(o,"/")) return 2;
@@ -62,6 +70,7 @@ int prec(char* o){
     return 0;
 }
 
+// Convert infix to postfix using Shunting Yard
 void shunt(char in[], Node*& f, Node*& r){
     Node* stack=NULL;
     char* t=strtok(in," ");
@@ -89,6 +98,7 @@ void shunt(char in[], Node*& f, Node*& r){
     while(stack) enqueue(f,r,pop(stack));
 }
 
+// Build expression tree from postfix
 Node* build(Node*& f, Node*& r){
     Node* s=NULL;
     Node* t;
@@ -106,6 +116,7 @@ Node* build(Node*& f, Node*& r){
     return pop(s);
 }
 
+// Print prefix (root left right)
 void pre(Node* n){
     if(!n) return;
     cout<<n->val<<" ";
@@ -113,6 +124,7 @@ void pre(Node* n){
     pre(n->right);
 }
 
+// Print infix (left root right)
 void in(Node* n){
     if(!n) return;
     if(op(n->val)) cout<<"( ";
@@ -122,6 +134,7 @@ void in(Node* n){
     if(op(n->val)) cout<<") ";
 }
 
+// Print postfix (left right root)
 void post(Node* n){
     if(!n) return;
     post(n->left);
@@ -131,6 +144,7 @@ void post(Node* n){
 
 int main(){
     char input[200];
+
     cout<<"Enter expression: ";
     cin.getline(input,200);
 
