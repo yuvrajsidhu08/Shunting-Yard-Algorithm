@@ -16,3 +16,20 @@ public:
         next=NULL;
     }
 };
+
+void push(Node*& top, Node* n){
+    n->next=top;
+    top=n;
+}
+
+Node* pop(Node*& top){
+    if(!top) return NULL;
+    Node* t=top;
+    top=top->next;
+    t->next=NULL;
+    return t;
+}
+
+Node* peek(Node* top){
+    return top;
+}
